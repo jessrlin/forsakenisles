@@ -1,0 +1,324 @@
+using System;
+using System.Globalization;
+using System.Threading;
+
+
+class Program
+{
+    // ASCII art representing the beach where the protagonist wakes up - AI
+static string beachArt = @"
+    _.====.._
+         ,:._       ~-_
+             `\        ~-_
+               | welcome  `.
+             ,/    to the   ~-_
+    -..__..-'' forsaken isles     ~~--..__...----...
+";
+static string ScollArt = @"
+        _______________
+   ()==(   Clue One  (@==()
+        '--------------'|
+          |    find     |
+          |  supplies   |
+          | to get off  |
+          | the island  |
+        __)_____________|
+   ()==(               (@==()
+        '--------------'";
+static string WildBoar = @"
+           __,---.__
+        ,-'         `-.__
+      &/           `._\ _\
+      /               ''._
+      |   ,             ("")
+      |__,'`-..--|__|--''";
+static string Food = @"
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  ⢀⣠⡶⠶⣦⣄⠀ ⠀⢀⣴⣿⣷⡄⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  ⠀⣠⣴⣿⣿⣿⣿⡇⡖⠂⠙⠗⣠⣾⣿⣿⣥⣀⠀
+⠀⠀⠀⠀⠀⠀⢀⣀⣠⣤⣶⣿⣿⣿⣿⣿⣿⣇⢣⠀⣠⣾⣿⣿⣿⣿⣿⣿⠇
+⠀⠀⠀⠀⠀⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡌⢧⠘⠿⠟⠛⣉⠉⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣌⠳⣄⠀⠀⣿⡀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣌⣉⣁⡿⠀⠀⠀⠀⠀
+⠀⢀⣤⣤⣤⣤⡀⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠛⠉⠀⠀⠀⠀⠀⠀
+⠀⢻⣿⣿⣿⣿⣷⡀⠹⣿⣿⣿⣿⣿⣿⣿⣿⠟⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠉⢩⣿⣿⣿⠋⠀⠈⠻⢿⣿⣿⣿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠸⣿⡿⠁⠀⠀⠀⠀⠀⠈⠉⠁⠀⠀";
+static int derivedVariable = 1000;
+// dervived varible for value of 1000, E
+
+
+static bool gameRunning = true;
+static bool AgeVerification()
+{
+    Console.WriteLine("You must be 10 years old to play this game.");
+    Thread.Sleep(derivedVariable);
+
+    while (true)
+    {
+        Console.WriteLine("What is your age?");
+        string input = Console.ReadLine();
+
+        if (int.TryParse(input, out int age))
+        {
+            if (age >= 10)
+            {
+                Console.WriteLine("You are old enough to play. Enjoy your adventure!");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("You are not old enough to play this game.");
+                GameOver();
+                return false;
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid age entered. Please enter a valid age.");
+        }
+    }
+}
+static void ProtagonistAwakening()//game begins
+    {
+        
+        Console.WriteLine(beachArt);//display the ascii art
+        Thread.Sleep(1000); // wait 1 second
+        Console.WriteLine("You wake up on the sandy shores of the forsaken isles.");
+        Thread.Sleep(1000); //2 seconds til the line will be displayed
+        Console.WriteLine("The sound of waves crashing against the shore fills the dark air.");
+        Thread.Sleep(1000);
+        Console.WriteLine("Your adventure begins. You find a map and some food in your backpack.\n");
+        Thread.Sleep(1000);
+
+    } // end Protagontist awakening
+static void StoryContinue(){
+    Console.WriteLine("You see a scroll in the sand and open it");
+    Console.WriteLine(ScollArt);
+    Thread.Sleep(derivedVariable*3);
+    Console.WriteLine("You must collect enough supplies to make a raft to sail to the next island");
+}
+static void CheckInventory(string[] inventory)
+{
+    // Clear the area where the inventory will be printed
+    Console.SetCursorPosition(Console.WindowWidth - 20, 0);
+    Console.WriteLine(new string(' ', 20)); // Clears the area
+    
+    // Set cursor position for inventory display
+    Console.SetCursorPosition(Console.WindowWidth - 20, 0);
+    Console.WriteLine("--- Inventory ---");
+
+    // Print each item in the inventory
+    int row = 1;
+    foreach (string item in inventory)
+    {
+        Console.SetCursorPosition(Console.WindowWidth - 20, row);
+        Console.WriteLine(item);
+        row++;
+    }
+
+    // Reset cursor position
+    Console.SetCursorPosition(0, Console.WindowHeight - 1);
+}
+static void ViewInventory(string[] inventory){//option to view 
+Console.WriteLine("Would you like to view your inventory?");
+            Thread.Sleep(1000);
+            Console.WriteLine("Press i to view");
+
+            string user = Console.ReadLine(); //asking user for their choice
+
+            if (user == "i") //when they click 1
+            {
+                CheckInventory(inventory);
+                return;
+            }
+    
+}
+static void WildlifeEncounter(string[] inventory)//wild life encounter effect on inventory
+{
+        
+    Console.WriteLine(WildBoar);
+
+        bool validChoice = false;
+        while (!validChoice)
+        {
+            Console.WriteLine("As you explore the surroundings, you encounter a wild boar!");
+            Thread.Sleep(1000);
+            Console.WriteLine("What will you do?");
+            Console.WriteLine("");
+            Console.WriteLine("1. Attempt to hunt the boar");
+            Console.WriteLine("2. Retreat slowly");
+
+            string choice = Console.ReadLine(); //asking user for their choice
+
+            if (choice == "1") //when they click 1
+            {
+                Console.WriteLine("You successfully hunt the boar and gain additional food.");
+                inventory[0] = "Food (5)";
+                validChoice = true;
+            }
+            else if (choice == "2") //when they click 2
+            {
+                Console.WriteLine("You choose to retreat and avoid confrontation.");
+                validChoice = true;
+            }
+            else //if enter an integer or string not 1 or 2
+            {
+                Console.WriteLine("Invalid choice. Please enter '1' to hunt or '2' to retreat.");
+            }
+        }
+    }
+static void PuzzleTime(string[] inventory)
+{
+    bool PuzzleChoice = false;
+    while (!PuzzleChoice)
+    {
+        Console.WriteLine("You spot a tribesman and decide to approach him,");
+        Thread.Sleep(1000);
+        Console.WriteLine("He says, if you play this puzzle, I will give you wood and oars for a boat.");
+        Console.WriteLine("What will you do?");
+        Console.WriteLine("");
+        Console.WriteLine("1. Play the puzzle");
+        Console.WriteLine("2. Go back to your shelter");
+
+        string Puzzle = Console.ReadLine(); //asking user for their choice
+
+        if (Puzzle == "1") //when they click 1
+        {
+            Console.WriteLine("You are invited to play a riddle game:");
+            PlayRiddleGame(inventory);
+            PuzzleChoice = true;
+        }
+        else if (Puzzle == "2") //when they click 2
+        {
+            Console.WriteLine("You choose to go back to your shelter and cook dinner.");
+            Console.WriteLine("How many of your foods will you eat for dinner tonight?");
+            Console.WriteLine(inventory[0]);
+
+            string Dinner = Console.ReadLine();
+
+             if (Dinner == "1") //when they click 1
+            {
+                Console.WriteLine("You will have 1 piece of your food supply");
+                inventory[0] = "Food (4)";
+            }
+            else if (Dinner == "2") //when they click 2
+            {
+                Console.WriteLine("You will have 2 piece of your food supply");
+                inventory[0] = "Food (3)";
+            }
+
+            else //if enter an integer or string not 1 or 2
+            {
+                Console.WriteLine("Invalid choice. Please enter '1' to hunt or '2' to retreat.");
+            }
+
+            PuzzleChoice = false;
+        }
+        else //if enter an integer or string not 1 or 2
+        {
+            Console.WriteLine("Invalid choice. Please enter '1' to play or '2' to go home.");
+        }
+    }
+}
+static void PlayRiddleGame(string[] inventory)
+{
+    string[] riddles = {
+        "I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I?",
+        "The more you take, the more you leave behind. What am I?",
+        "What has keys but can't open locks?",
+        // Add more riddles as needed
+    };
+
+    string[] answers = {
+        "An echo",
+        "Footsteps",
+        "A piano",
+        // Add corresponding answers
+    };
+
+    Random rnd = new Random();
+    int index = rnd.Next(0, riddles.Length); // Get a random riddle index
+
+    Console.WriteLine("Here's your riddle:");
+    Console.WriteLine(riddles[index]);
+    Console.WriteLine("Your answer:");
+
+    string userAnswer = Console.ReadLine();
+
+    if (userAnswer == answers[index].ToLower())
+    {
+        Console.WriteLine("Correct! You receive wood and oars for a boat as a reward.");
+        inventory[3] = "Wood (1)"; // Update inventory with wood
+        inventory[4] = "Oars (1)"; // Update inventory with oars
+    }
+    else
+    {
+        Console.WriteLine("Incorrect! The tribesman shakes his head in disappointment.");
+    }
+}
+static void HealthLost(){
+    Console.WriteLine();
+}
+static void GameOver()
+    {
+    
+    Console.Clear();
+    Console.WriteLine("                                            ⣀⣠⡀⠀");
+    Console.WriteLine("                            ⢀⣤⣤⠀⠀⠀⢀⣴⣿⡶⠀⣾⣿⣿⡿⠟⠛⠁");
+    Console.WriteLine("⠀⠀⠀⠀⠀⠀⣀⣀⣄⣀⠀⠀⠀⠀⣶⣶⣦⠀⠀⠀ ⠀⣼⣿⣿⡇⠀⣠⣿⣿⣿⠇⣸⣿⣿⣧⣤⠀⠀⠀");
+    Console.WriteLine("⠀⠀⢀⣴⣾⣿⡿⠿⠿⠿⠇⠀⠀⣸⣿⣿⣿⡆⠀⠀⢰⣿⣿⣿⣷⣼⣿⣿⣿⡿⢀⣿⣿⡿⠟⠛⠁⠀⠀");
+    Console.WriteLine("⠀⣴⣿⡿⠋⠁⠀⠀⠀⠀⠀⠀⢠⣿⣿⣹⣿⣿⣿⣿⣿⣿⡏⢻⣿⣿⢿⣿⣿⠃⣼⣿⣯⣤⣴⣶⣿⡤⠀");
+    Console.WriteLine("⣼⣿⠏⠀⣀⣠⣤⣶⣾⣷⠄⣰⣿⣿⡿⠿⠻⣿⣯⣸⣿⡿⠀⠀⠀⠁⣾⣿⡏⢠⣿⣿⠿⠛⠋⠉⠀⠀⠀");
+    Console.WriteLine("⣿⣿⠲⢿⣿⣿⣿⣿⡿⠋⢰⣿⣿⠋⠀⠀⠀⢻⣿⣿⣿⠇⠀⠀⠀⠀⠙⠛⠀⠀⠉⠁⠀⠀⠀⠀⠀⠀⠀");
+    Console.WriteLine("⠹⢿⣷⣶⣿⣿⠿⠋⠀⠀⠈⠙⠃⠀⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");
+    Console.WriteLine("⠀⠀⠈⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀    ⠀⠀⣀⣤⣤⣴⣶⣦⣤⡀⠀");
+    Console.WriteLine("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡀⠀⠀⠀⠀⠀⠀   ⠀⣠⡇⢰⣶⣶⣾⡿⠷⣿⣿⣿⡟⠛⣉⣿⣿⣿⠆");
+    Console.WriteLine("⠀⠀⠀⠀⠀⠀⢀⣤⣶⣿⣿⡎⣿⣿⣦⠀⠀ ⠀⢀⣤⣾⠟⢀⣿⣿⡟⣁⠀⠀⣸⣿⣿⣤⣾⣿⡿⠛⠁⠀");
+    Console.WriteLine("⠀⠀⠀⠀⣠⣾⣿⡿⠛⠉⢿⣦⠘⣿⣿⡆⠀⢠⣾⣿⠋⠀⣼⣿⣿⣿⠿⠷⢠⣿⣿⣿⠿⢻⣿⣧⠀⠀⠀");
+    Console.WriteLine("⠀⠀⠀⣴⣿⣿⠋⠀⠀⠀⢸⣿⣇⢹⣿⣷⣰⣿⣿⠃⠀⢠⣿⣿⢃⣀⣤⣤⣾⣿⡟⠀⠀⠀⢻⣿⣆⠀⠀");
+    Console.WriteLine("⠀⠀⠀⣿⣿⡇⠀⠀⢀⣴⣿⣿⡟⠀⣿⣿⣿⣿⠃⠀⠀⣾⣿⣿⡿⠿⠛⢛⣿⡟⠀⠀⠀⠀⠀⠻⠿⠀⠀");
+    Console.WriteLine("⠀⠀⠀⠹⣿⣿⣶⣾⣿⣿⣿⠟⠁⠀⠸⢿⣿⠇⠀⠀⠀⠛⠛⠁⠀⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀");
+    Console.WriteLine("⠀⠀⠀⠀⠈⠙⠛⠛⠛⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");
+
+} // end game over
+
+
+static void Main()
+    {
+
+    if (!AgeVerification()) {
+        GameOver();
+        return;
+    } //if the age verification returns flase, end game
+
+    Thread.Sleep(derivedVariable*3);
+    Console.Clear();
+    
+    //begin to display the game if the age is accepted
+    ProtagonistAwakening();
+    Thread.Sleep(derivedVariable*4);
+    Console.Clear();
+
+    //continue story
+    StoryContinue();
+    Thread.Sleep(derivedVariable*4);
+    Console.Clear();
+
+    //show and display the initial inventory
+    string[] inventory = { "Food (3)", "Water (2)", "Map (1)", "Wood (0)" }; //array orginal
+    CheckInventory(inventory);
+
+    //1st encounter
+    Thread.Sleep(derivedVariable*4);
+    WildlifeEncounter(inventory);
+    Console.Clear();
+
+    //puzzle with tribes man
+    Thread.Sleep(derivedVariable*3);
+    PuzzleTime(inventory);
+    PlayRiddleGame(inventory);
+
+    } // static main
+
+} // end class program
