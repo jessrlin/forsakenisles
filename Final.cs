@@ -194,6 +194,9 @@ static void PuzzleTime(string[] inventory)
             UpdateFoodQuantity(-1); // Reduce food quantity by 1
             inventory[0] = $"Food ({currentFoodQuantity})"; // Update inventory
             CheckInventory(inventory);
+            Thread.Sleep(WaitTime*3);
+            Console.SetCursorPosition(0, 0);
+            Console.Clear();
             PuzzleChoice = true;
 
         }
@@ -241,6 +244,8 @@ static void PlayRiddleGame(string[] inventory)
         CheckInventory(inventory);
         Console.WriteLine("This is great news! you are one step closer to getting off the island!");
         Thread.Sleep(WaitTime*3);
+        Console.SetCursorPosition(0, 0);
+        Console.Clear();
             
     }
     else
@@ -257,7 +262,8 @@ static bool NeedWaterEvent(string[] inventory)
         {
            Thread.Sleep(WaitTime*3);
            Console.WriteLine("");
-           Console.WriteLine("You feel thirsty and realize you need more water!");
+           Console.WriteLine("Oh no! You feel thirsty and realize you need more water");
+           Console.WriteLine("You finish you second to last bottle of water!");
            return true;
 
         }
@@ -359,3 +365,8 @@ static void Main()
     } // static main
 
 } // end class program
+
+
+
+// check invialid for game over
+// add more story
