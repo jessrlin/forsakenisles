@@ -103,6 +103,7 @@ static void StoryContinue(){
     Thread.Sleep(WaitTime); // wait 1 second
     Console.WriteLine(ScollArt);
     Thread.Sleep(WaitTime); // wait 1 second
+    Console.WriteLine("");
     Console.WriteLine("You must collect enough supplies to make a raft to sail to the next island");
     Thread.Sleep(WaitTime); // wait 1 second
 }
@@ -133,6 +134,7 @@ static void WildlifeEncounter(string[] inventory)//wild life encounter effect on
             Thread.Sleep(WaitTime);
             Console.WriteLine("What will you do?");
             Console.WriteLine("");
+            Thread.Sleep(WaitTime);
             Console.WriteLine("1. Attempt to hunt the boar");
             Console.WriteLine("2. Retreat slowly");
 
@@ -141,7 +143,7 @@ static void WildlifeEncounter(string[] inventory)//wild life encounter effect on
 
             if (choice == "1") //when they click 1
             {
-                Console.WriteLine("You successfully hunt the boar and gain additional food.");
+                Console.WriteLine("Congratulations! You successfully hunt the boar and gain additional food.");
                 inventory[0] = $"Food ({currentFoodQuantity + 2})";
                 CheckInventory(inventory);
                 validChoice = true;
@@ -181,6 +183,8 @@ static void PuzzleTime(string[] inventory)
         {
             Console.WriteLine("You are invited to play a riddle game:");
             Thread.Sleep(WaitTime);
+            Console.SetCursorPosition(0, 0);
+            Console.Clear();
             PlayRiddleGame(inventory);
             PuzzleChoice = true;
         }
@@ -224,7 +228,7 @@ static void PlayRiddleGame(string[] inventory)
 
     if (userAnswer.Equals(answers[index]))
     {
-       Console.WriteLine("Correct! You receive wood for a boat as a reward.");
+       Console.WriteLine("Correct! You receive wood and rope for a boat as a reward.");
         UpdateWoodQuantity(-1); // Reduce wood quantity by 1
         inventory[3] = $"Wood ({currentWoodQuantity})";
 
@@ -235,6 +239,7 @@ static void PlayRiddleGame(string[] inventory)
 
         // Update inventory display
         CheckInventory(inventory);
+        Console.WriteLine("This is great news! you are one step closer to getting off the island!");
         Thread.Sleep(WaitTime*3);
             
     }
@@ -248,25 +253,26 @@ static bool NeedWaterEvent(string[] inventory)
         Random rnd = new Random();
         int eventChance = rnd.Next(1, 101); // Generate a random number between 1 and 100
 
-        if (eventChance <= 40) // 40% chance of needing more water
+        if (eventChance <= 70) // 70% chance of needing more water
         {
-            Console.WriteLine("You feel thirsty and realize you need more water!");
-            inventory[1] = $"Water ({InitialWaterQuantity -1})";// Reduce water in inventory
-            CheckInventory(inventory);
-            return true;
+           Thread.Sleep(WaitTime*3);
+           Console.WriteLine("");
+           Console.WriteLine("You feel thirsty and realize you need more water!");
+           return true;
+
         }
 
         return false;
     }
 
 static void MoreStory(){
-    Console.WriteLine("After a long day exploring all the island has to offer, you decide to get some sleep");
-    Thread.Sleep(WaitTime); // wait 1 second
     Console.SetCursorPosition(0, 0);
     Console.Clear();
-    Console.WriteLine("Welcome to Day 2!");
-    Console.WriteLine("Time to collect your items for a boat.");
-    Thread.Sleep(WaitTime); // wait 1 second
+    Console.WriteLine("After a long day exploring all the island has to offer, you decide to get some sleep");
+    Thread.Sleep(WaitTime*2); // wait 2 second
+    Console.WriteLine("See you in the morning for Day 2!");
+    Thread.Sleep(WaitTime*2);
+    Console.WriteLine("But for now this is...");
 }
 
 
@@ -339,18 +345,15 @@ static void Main()
     PuzzleTime(inventory);
     
 
-     if (NeedWaterEvent(inventory))
-        {
-            Console.WriteLine("Oh no! You feel thirsty and realize you need more water!");
-            inventory[1] = "Water (1)"; // Reduce water in inventory
-            CheckInventory(inventory);
-        }
-        
-    
+    if (NeedWaterEvent(inventory)) // Check for water event
+    {
+        inventory[1] = $"Water ({InitialWaterQuantity -1})";// Reduce water in inventory
+        CheckInventory(inventory);
+    }
+
     Thread.Sleep(WaitTime*3);
 
     MoreStory();
-
     GameOver();
 
     } // static main
